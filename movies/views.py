@@ -61,3 +61,19 @@ def delete_review(request, id, review_id):
     review = get_object_or_404(Review, id=review_id, user=request.user)
     review.delete()
     return redirect('movies.show', id=id)
+
+@login_required
+def report_review(request, id, review_id):
+    review = get_object_or_404(Review, id=review_id)
+
+    if request.user in review.report_list.all():
+        return redirect('movies.show', id=id)
+
+    review.report_list.add(request.user)
+    review.report_quantity += 1
+    review.save()
+
+    if review.report_quantity > 5:
+        review.delete()
+
+    return redirect('movies.show', id=id)

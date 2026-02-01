@@ -51,6 +51,12 @@
             <a class="btn btn-danger"
               href="{% url 'movies.delete_review' id=template_data.movie.id review_id=review.id %}">Delete
             </a>
+            {% elif user.is_authenticated %}
+                {% if user not in review.report_list.all  %}
+                    <a class = "btn btn-warning"
+                        href = "{% url 'movies.report_review' id=template_data.movie.id review_id=review.id %}">Report
+                    </a>
+            {% endif %}
             {% endif %}
           </li>
           {% endfor %}

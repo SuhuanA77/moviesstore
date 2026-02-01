@@ -16,5 +16,7 @@ class Review(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    report_quantity = models.IntegerField(default = 0)
+    report_list = models.ManyToManyField(User, related_name = 'reported_reviews', blank = True)
     def __str__(self):
         return str(self.id) + ' - ' + self.movie.name
